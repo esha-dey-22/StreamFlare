@@ -5,6 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Start Playing - Space Adventure</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.3/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Ensure the body takes full height to push the footer down */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        main {
+            flex: 1; /* Push the footer to the bottom */
+        }
+    </style>
 </head>
 <body class="bg-black text-white font-sans">
 
@@ -19,35 +30,37 @@
         </div>
     </header>
 
-    <!-- Main Section -->
-    <section class="container mx-auto py-12 px-4">
-        <div class="text-center mb-8">
-            <h2 class="text-3xl font-bold text-white">Space Adventure: Start Playing</h2>
-            <p class="text-gray-300 mt-2">Prepare yourself for an epic battle in space! Use WASD to move, mouse to aim, and spacebar to shoot!</p>
-        </div>
-        
-        <!-- Game Embed Section -->
-        <div class="flex justify-center">
-            <iframe 
-                src="./game2_play_environment.html" 
-                width="800" 
-                height="600" 
-                frameborder="0" 
-                class="rounded-lg shadow-lg w-full max-w-4xl h-[calc(50vh)] sm:h-[calc(70vh)]">
-                Your browser does not support inline frames. Please visit the game directly.
-            </iframe>
-        </div>
-        
-        <!-- Back Button -->
-        <div class="text-center mt-8">
-            <a href="./game2.html" class="py-3 px-6 rounded-full text-xl text-white hover:bg-red-800 bg-red-700/60">
-                Back to Game Description
-            </a>
-        </div>
-    </section>
+    <!-- Main Content Section -->
+    <main>
+        <section class="container mx-auto py-12 px-4">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold text-white">Space Adventure: Start Playing</h2>
+                <p class="text-gray-300 mt-2">Prepare yourself for an epic battle in space! Use WASD to move, mouse to aim, and spacebar to shoot!</p>
+            </div>
+            
+            <!-- Game Embed Section -->
+            <div class="flex justify-center">
+                <iframe 
+                    src="./game2_play_environment.html" 
+                    width="800" 
+                    height="600" 
+                    frameborder="0" 
+                    class="rounded-lg shadow-lg w-full max-w-4xl h-[calc(50vh)] sm:h-[calc(70vh)]">
+                    Your browser does not support inline frames. Please visit the game directly.
+                </iframe>
+            </div>
+            
+            <!-- Back Button -->
+            <div class="text-center mt-8">
+                <a href="./game2.html" class="py-3 px-6 rounded-full text-xl text-white hover:bg-red-800 bg-red-700/60">
+                    Back to Game Description
+                </a>
+            </div>
+        </section>
+    </main>
 
     <!-- Footer Section -->
-    <footer class="bg-black text-white py-6 mt-12">
+    <footer class="bg-black text-white py-6">
         <div class="container mx-auto text-center text-sm">
             <p>&copy; 2024 Online Entertainment Hub. All Rights Reserved.</p>
         </div>
