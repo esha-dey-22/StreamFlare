@@ -16,7 +16,7 @@ pipeline {
 
         stage('Run App in Container') {
             steps {
-                bat 'docker run -d -p 8080:80 --name streamflare-container streamflare-app'
+                bat 'docker run -d -p 3000:80 --name streamflare-container streamflare-app'
             }
         }
     }
