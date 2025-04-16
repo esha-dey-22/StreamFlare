@@ -14,9 +14,9 @@ pipeline {
             }
         }
 
-        stage('Run App in Container') {
+        stage('Run App in Container (Once)') {
             steps {
-                bat 'docker run -d -p 3000:80 --name streamflare-container streamflare-app'
+                bat 'docker run --rm -d -p 3000:80 --name streamflare-container streamflare-app'
             }
         }
     }
