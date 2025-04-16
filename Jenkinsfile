@@ -10,17 +10,13 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                script {
-                    docker.build('streamflare-app')
-                }
+                bat 'docker build -t streamflare-app .'
             }
         }
 
         stage('Run App in Container') {
             steps {
-                script {
-                    docker.image('streamflare-app').run('-p 8080:80')
-                }
+                bat 'docker run -d -p 8080:80 --name streamflare-container streamflare-app'
             }
         }
     }
