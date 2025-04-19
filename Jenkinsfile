@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        DOCKER_IMAGE = "esha0629/streamflare"
-    }
-
     stages {
         stage('Clone Repo') {
             steps {
@@ -14,40 +10,14 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                bat 'docker build -t %DOCKER_IMAGE% .'
-            }
-        }
-
-        stage('Push to Docker Hub') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                    bat 'echo %PASSWORD% | docker login -u %USERNAME% --password-stdin'
-                    bat 'docker push %DOCKER_IMAGE%:latest'
-                }
+                bat 'docker build -t streamflare-app .'
             }
         }
 
         stage('Run App in Container (Once)') {
             steps {
-                bat '''
-                echo Checking Docker...
-                docker version
-
-                echo Pulling image...
-                docker pull esha0629/streamflare:latest
-
-                echo Stopping any existing container...
-                docker stop streamflare-container || exit 0
-                docker rm streamflare-container || exit 0
-
-                echo Running new container...
-                docker run -d -p 3000:80 --name streamflare-container esha0629/streamflare:latest
-
-                echo Current containers:
-                docker ps -a
-                '''
+                bat 'docker run -d -p 3000:80 --name streamflare-container streamflare-app'
             }
-    }
-
+        }
     }
 }
