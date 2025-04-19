@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials-id') // Jenkins credentials ID
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub') // Jenkins credentials ID
         IMAGE_NAME = 'esha0629/streamflare-app'
     }
 
