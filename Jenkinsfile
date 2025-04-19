@@ -22,8 +22,7 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                     bat 'echo %PASSWORD% | docker login -u %USERNAME% --password-stdin'
-                    bat 'docker tag %DOCKER_IMAGE% %USERNAME%/streamflare:latest'
-                    bat 'docker push %USERNAME%/streamflare:latest'
+                    bat 'docker push %DOCKER_IMAGE%:latest'
                 }
             }
         }
@@ -31,9 +30,10 @@ pipeline {
         stage('Run App in Container (Once)') {
             steps {
                 bat '''
+                docker pull esha0629/streamflare:latest
                 docker stop streamflare-container || exit 0
                 docker rm streamflare-container || exit 0
-                docker run -d -p 3000:80 --name streamflare-container %DOCKER_IMAGE%
+                docker run -d -p 3000:80 --name streamflare-container esha0629/streamflare:latest
                 '''
             }
         }
