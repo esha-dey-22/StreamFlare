@@ -37,17 +37,3 @@ pipeline {
             }
         }
     }
-
-    post {
-        success {
-            mail to: 'edey38111@gmail.com',
-                 subject: "✅ StreamFlare CI/CD Pipeline Success",
-                 body: "The Jenkins build for StreamFlare completed successfully and the image was pushed to Docker Hub at https://hub.docker.com/r/esha0629/streamflare"
-        }
-        failure {
-            mail to: 'edey38111@gmail.com',
-                 subject: "❌ StreamFlare CI/CD Pipeline Failed",
-                 body: "The Jenkins build for StreamFlare failed. Please check the Jenkins logs for more details."
-        }
-    }
-}
