@@ -30,12 +30,24 @@ pipeline {
         stage('Run App in Container (Once)') {
             steps {
                 bat '''
+                echo Checking Docker...
+                docker version
+
+                echo Pulling image...
                 docker pull esha0629/streamflare:latest
+
+                echo Stopping any existing container...
                 docker stop streamflare-container || exit 0
                 docker rm streamflare-container || exit 0
+
+                echo Running new container...
                 docker run -d -p 3000:80 --name streamflare-container esha0629/streamflare:latest
+
+                echo Current containers:
+                docker ps -a
                 '''
             }
-        }
+    }
+
     }
 }
