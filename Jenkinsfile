@@ -22,7 +22,8 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                     bat 'echo %PASSWORD% | docker login -u %USERNAME% --password-stdin'
-                    bat 'docker push %DOCKER_IMAGE%:latest'
+                    bat 'docker tag %DOCKER_IMAGE% %USERNAME%/streamflare:latest'
+                    bat 'docker push %USERNAME%/streamflare:latest'
                 }
             }
         }
@@ -37,3 +38,4 @@ pipeline {
             }
         }
     }
+}
