@@ -43,4 +43,18 @@ pipeline {
             }
         }
     }
+
+    post {
+        always {
+            emailext(
+                subject: "📦 Build Result: ${currentBuild.currentResult} - Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+                body: """<p><b>Build Status:</b> ${currentBuild.currentResult}</p>
+                         <p><b>Job:</b> ${env.JOB_NAME}<br/>
+                         <b>Build Number:</b> ${env.BUILD_NUMBER}<br/>
+                         <b>URL:</b> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>""",
+                to: 'edey38111@gmail.com',
+                mimeType: 'text/html'
+            )
+        }
+    }
 }
