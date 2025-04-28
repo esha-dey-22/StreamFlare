@@ -4,6 +4,7 @@ pipeline {
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub') // Jenkins credentials ID
         IMAGE_NAME = 'esha0629/streamflare-app'
+        CONTAINER_NAME = 'streamflare-container'
     }
 
     stages {
@@ -15,31 +16,37 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                bat 'docker build -t streamflare-app .'
-            }
-        }
-
-        stage('Tag Docker Image') {
-            steps {
-                bat 'docker tag streamflare-app %IMAGE_NAME%'
+                sh "docker build -t $IMAGE_NAME ."
             }
         }
 
         stage('Login to DockerHub') {
             steps {
-                bat "echo %DOCKERHUB_CREDENTIALS_PSW% | docker login -u %DOCKERHUB_CREDENTIALS_USR% --password-stdin"
+                sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin"
             }
         }
 
-        stage('Push to DockerHub') {
+        stage('Push Docker Image') {
             steps {
-                bat 'docker push %IMAGE_NAME%'
+                sh "docker push $IMAGE_NAME"
             }
         }
 
-        stage('Run App in Container (Once)') {
+        stage('Logout from DockerHub') {
             steps {
-                bat 'docker run -d -p 3000:80 --name streamflare-container %IMAGE_NAME%'
+                sh "docker logout"
+            }
+        }
+
+        stage('Run App in Container') {
+            steps {
+                script {
+                    sh """
+                        docker stop $CONTAINER_NAME || true
+                        docker rm $CONTAINER_NAME || true
+                        docker run -d -p 3000:80 --name $CONTAINER_NAME $IMAGE_NAME
+                    """
+                }
             }
         }
     }
