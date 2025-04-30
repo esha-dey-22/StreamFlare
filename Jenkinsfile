@@ -46,15 +46,29 @@ pipeline {
 
     post {
         always {
-            emailext(
-                subject: "📦 Build Result: ${currentBuild.currentResult} - Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-                body: """<p><b>Build Status:</b> ${currentBuild.currentResult}</p>
-                         <p><b>Job:</b> ${env.JOB_NAME}<br/>
-                         <b>Build Number:</b> ${env.BUILD_NUMBER}<br/>
-                         <b>URL:</b> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>""",
-                to: 'edey38111@gmail.com',
-                mimeType: 'text/html'
+            script {
+                def statusColor = currentBuild.currentResult == 'SUCCESS' ? 'green' :
+                              currentBuild.currentResult == 'FAILURE' ? 'red' : 'orange'
+                def emoji = currentBuild.currentResult == 'SUCCESS' ? '✅' :
+                        currentBuild.currentResult == 'FAILURE' ? '❌' : '⚠️'
+                emailext(
+                    subject: "${emoji} Build ${currentBuild.currentResult}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+                    body: """<html>
+                    <body>
+                        <h2 style="color:${statusColor};">${emoji} Build ${currentBuild.currentResult}</h2>
+                        <p><b>Project:</b> ${env.JOB_NAME}</p>
+                        <p><b>Build Number:</b> ${env.BUILD_NUMBER}</p>
+                        <p><b>Build URL:</b> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
+                        <p><b>Triggered by:</b> ${env.BUILD_CAUSE}</p>
+                        <hr>
+                        <p>🔧 <i>This is an automated Jenkins build notification.</i></p>
+                    </body>
+                </html>""",
+                mimeType: 'text/html',
+                to: 'edey38111@gmail.com'
             )
         }
     }
+}
+
 }
