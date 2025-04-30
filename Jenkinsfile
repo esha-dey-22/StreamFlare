@@ -5,17 +5,11 @@ pipeline {
         IMAGE_NAME = "streamflare"
         DOCKER_HUB_USERNAME = "esha0629"
         DOCKER_HUB_REPO = "${DOCKER_HUB_USERNAME}/${IMAGE_NAME}"
-        DOCKER_HUB_CREDENTIALS_ID = "dockerhub"  // Make sure this exists in Jenkins Credentials
+        DOCKER_HUB_CREDENTIALS_ID = "dockerhub"  // Set this in Jenkins Credentials
         VERSION = "v${BUILD_NUMBER}"
     }
 
     stages {
-        stage('Clean Workspace') {
-            steps {
-                deleteDir()
-            }
-        }
-
         stage('Checkout Code') {
             steps {
                 git branch: 'main', url: 'https://github.com/esha-dey-22/StreamFlare.git'
