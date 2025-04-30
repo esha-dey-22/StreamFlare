@@ -12,8 +12,7 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                // Only use one method to checkout code – let Jenkins do it via the job config
-                checkout scm
+                git branch: 'main', url: 'https://github.com/esha-dey-22/StreamFlare.git'
             }
         }
 
