@@ -21,25 +21,25 @@ pipeline {
 
         stage('Tag Docker Image') {
             steps {
-                sh 'docker tag streamflare-app %IMAGE_NAME%'
+                sh 'docker tag streamflare-app $IMAGE_NAME'
             }
         }
 
         stage('Login to DockerHub') {
             steps {
-                sh "echo %DOCKERHUB_CREDENTIALS_PSW% | docker login -u %DOCKERHUB_CREDENTIALS_USR% --password-stdin"
+                sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin"
             }
         }
 
         stage('Push to DockerHub') {
             steps {
-                sh 'docker push %IMAGE_NAME%'
+                sh 'docker push $IMAGE_NAME'
             }
         }
 
         stage('Run App in Container (Once)') {
             steps {
-                sh 'docker run -d -p 3000:80 --name streamflare-container %IMAGE_NAME%'
+                sh 'docker run -d -p 3000:80 --name streamflare-container $IMAGE_NAME'
             }
         }
     }
